@@ -1,0 +1,26 @@
+version: 2
+jobs:
+  validate:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run: ./scripts/validate.sh
+  build:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run: ./scripts/build.sh
+
+workflows:
+  version: 2
+  validate_and_apply:
+    jobs:
+      - validate
+      - build:
+          requires:
+            - validate
+          filters:
+            branches:
+              only: master
