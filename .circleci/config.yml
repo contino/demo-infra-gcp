@@ -1,35 +1,26 @@
-version: 2.1
+version: 2
 jobs:
-  terraform:
+  validate:
     docker:
-      - image: hashicorp/terraform:0.12.24
+      - image: hashicorp/terraform:light
     steps:
       - checkout
-      - run:
-          name: Create Service Account key file from environment variable
-          working_directory: terraform
-          command: echo ${GOOGLE_APPLICATION_CREDENTIALS} > account.json
-      - run:
-          name: Show Terraform version
-          command: terraform version
-      - run:
-          name: Download required Terraform plugins
-          working_directory: terraform
-          command: terraform init -reconfigure
-      - run:
-          name: Validate Terraform configuration
-          working_directory: terraform
-          command: terraform validate
-      - run:
-          name: Create Terraform plan
-          working_directory: terraform
-          command: terraform plan -out /tmp/tf.plan
-      - run:
-          name: Run Terraform plan
-          working_directory: terraform
-          command: terraform apply /tmp/tf.plan
-workflows:
-  main:
-    jobs:
-      - terraform
+      - run: ./scripts/validate.sh
+  build:
+    docker:
+      - image: hashicorp/terraform:light
+    steps:
+      - checkout
+      - run: ./scripts/build.sh
 
+workflows:
+  version: 2
+  validate_and_apply:
+    jobs:
+      - validate
+      - build:
+          requires:
+            - validate
+          filters:
+            branches:
+              only: master
