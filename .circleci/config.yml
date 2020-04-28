@@ -1,7 +1,4 @@
 version: 2.1
-orbs:
-  gcp-gcr: circleci/gcp-gcr@0.6.1
-
 jobs:
   terraform:
     docker:
@@ -11,7 +8,7 @@ jobs:
       - run:
           name: Create Service Account key file from environment variable
           working_directory: terraform
-          command: echo ${TF_SERVICE_ACCOUNT_KEY} > account.json
+          command: echo ${GOOGLE_APPLICATION_CREDENTIALS} > account.json
       - run:
           name: Show Terraform version
           command: terraform version
