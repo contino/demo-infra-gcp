@@ -8,11 +8,13 @@ locals {
 }
 
 provider "google" {
+  credentials ="account.json"
   version = "3.19.0"
   project = "kubernetes-cp"
 }
 
 provider "google-beta" {
+  credentials = "account.json"
   version = "3.19.0"
   project = "kubernetes-cp"
 }
