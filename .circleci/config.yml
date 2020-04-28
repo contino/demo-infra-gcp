@@ -5,7 +5,7 @@ orbs:
 jobs:
   terraform:
     docker:
-      - image: hashicorp/terraform:0.12.17
+      - image: hashicorp/terraform:0.12.24
     steps:
       - checkout
       - run:
@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Download required Terraform plugins
           working_directory: terraform
-          command: terraform init
+          command: terraform init -reconfigure
       - run:
           name: Validate Terraform configuration
           working_directory: terraform
