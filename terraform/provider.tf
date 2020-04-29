@@ -8,12 +8,12 @@ locals {
 }
 
 provider "google" {
-  version = "~> 2.18.0"
+  version = "~> 3.18.0"
   project = var.project_id
 }
 
 provider "google-beta" {
-  version = "~> 2.18.0"
+  version = "~> 3.18.0"
   project = var.project_id
 }
 

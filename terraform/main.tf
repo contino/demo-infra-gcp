@@ -27,6 +27,11 @@ resource "google_project_iam_member" "role-binding" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
+resource "google_container_registry" "registry" {
+  project  = var.project_id
+  location = "EU"
+}
+
 data "google_project" "container_images" {
   project_id = var.project_id
 }
