@@ -42,23 +42,6 @@ locals {
   gcr_bucket_name = "eu.artifacts.${data.google_project.container_images.name}.appspot.com"
 }
 
-resource "google_project_iam_custom_role" "container_registry_tenant" {
-  project     = data.google_project.container_images.name
-  role_id     = "ContainerRegistryTenant"
-  title       = "Container Registry Tenant"
-  description = "This role allows docker push to registry"
-
-  permissions = [
-    "resourcemanager.projects.get",
-    "storage.buckets.get",
-    "storage.objects.create",
-    "storage.objects.delete",
-    "storage.objects.get",
-    "storage.objects.list",
-    "storage.objects.update",
-  ]
-}
-
 resource "google_project_service" "container_registry" {
   project            = data.google_project.container_images.name
   service            = "containerregistry.googleapis.com"
