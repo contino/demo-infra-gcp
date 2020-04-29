@@ -33,7 +33,7 @@ jobs:
 
 workflows:
   version: 2
-  validate-and-apply:
+  validate-and-build:
     jobs:
       - validate
       - build:
