@@ -9,4 +9,4 @@ Create another service account "containerregistry" for container registry.
 
 Create secret using container registry service account
 
-kubectl create secret docker-registry gcr-json-key --docker-server=eu.gcr.io --docker-username=_json_key --docker-password="$(cat /Users/japrakash/Downloads/kubernetes-cp-9be3d10470aa.json)"          
+kubectl create secret docker-registry gcr-json-key --docker-server=eu.gcr.io --docker-username=_json_key --docker-password="$(cat /Users/japrakash/Downloads/jagendra-atal-prakash-contino-b9e4ac7fe2dc.json)"          
