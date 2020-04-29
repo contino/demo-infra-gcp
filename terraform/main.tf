@@ -1,14 +1,7 @@
-locals {
-  name            = "demo-application"
-  region          = "europe-west1"
-  project_id      = "jagendra-atal-prakash-contino"
-
-}
-
 module "cluster_1" {
   source                              = "./modules/cluster"
-  name                                = local.name
-  region                              = local.region
+  name                                = var.name
+  region                              = var.region
   node_subnet_range                   = "10.0.0.0/24"
   pod_subnet_range                    = "10.224.0.0/17"
   service_subnet_range                = "10.128.0.0/17"
@@ -25,31 +18,28 @@ module "cluster_1" {
 resource "google_service_account" "service_account" {
   account_id   = "containerregistry"
   display_name = "Service Account for container registry"
-  project      = local.project_id
+  project      = var.project_id
 }
 
 resource "google_project_iam_member" "role-binding" {
-  project = local.project_id
+  project = var.project_id
   role    = "roles/storage.admin"
   member  = "serviceAccount:${google_service_account.service_account.email}"
 }
 
 data "google_project" "container_images" {
-  project_id = local.project_id
+  project_id = var.project_id
 }
 
 locals {
   gcr_bucket_name = "eu.artifacts.${data.google_project.container_images.name}.appspot.com"
 }
 
-resource "google_project_service" "container_registry" {
-  project            = data.google_project.container_images.name
-  service            = "containerregistry.googleapis.com"
-  disable_on_destroy = false
-}
+# Enable services in newly created GCP Project.
+resource "google_project_service" "gcp_services" {
+  count   = length(var.gcp_service_list)
+  project = var.project_id
+  service = var.gcp_service_list[count.index]
 
-resource "google_project_service" "container_analysis" {
-  project            = data.google_project.container_images.name
-  service            = "containeranalysis.googleapis.com"
-  disable_on_destroy = false
+  disable_dependent_services = true
 }
