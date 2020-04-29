@@ -3,5 +3,5 @@
 set -ex
 
 cd terraform \
-&& terraform init \
+&& terraform init -backend=false \
 && terraform validate

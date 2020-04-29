@@ -8,13 +8,13 @@ locals {
 }
 
 provider "google" {
-  version = "3.19.0"
-  project = "kubernetes-cp"
+  version = "~> 2.18.0"
+  project = "jagendra-atal-prakash-contino"
 }
 
 provider "google-beta" {
-  version = "3.19.0"
-  project = "kubernetes-cp"
+  version = "~> 2.18.0"
+  project = "jagendra-atal-prakash-contino"
 }
 
 provider "kubernetes" {

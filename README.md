@@ -1,11 +1,11 @@
 # demo-infra-gcp
 Infra for demo application using GCP
 
-Create a bucket for terraform state
+Find out a GCP project and then create a bucket "demo-tfstate-eu-gcs" for terraform state.
 
-Create a service account for terraform
+Create a service account "terraform" for terraform.
 
-Create a service account for container registry
+Create another service account "containerregistry" for container registry.
 
 Create secret using container registry service account
 

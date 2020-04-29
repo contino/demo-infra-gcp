@@ -1,6 +1,8 @@
 locals {
   name            = "demo-application"
   region          = "europe-west1"
+  project_id      = "jagendra-atal-prakash-contino"
+
 }
 
 module "cluster_1" {
@@ -20,3 +22,51 @@ module "cluster_1" {
   preemptible                         = "true"
 }
 
+resource "google_service_account" "service_account" {
+  account_id   = "containerregistry"
+  display_name = "Service Account for container registry"
+  project      = local.project_id
+}
+
+resource "google_project_iam_member" "role-binding" {
+  project = local.project_id
+  role    = "roles/storage.admin"
+  member  = "serviceAccount:${google_service_account.service_account.email}"
+}
+
+data "google_project" "container_images" {
+  project_id = local.project_id
+}
+
+locals {
+  gcr_bucket_name = "eu.artifacts.${data.google_project.container_images.name}.appspot.com"
+}
+
+resource "google_project_iam_custom_role" "container_registry_tenant" {
+  project     = data.google_project.container_images.name
+  role_id     = "ContainerRegistryTenant"
+  title       = "Container Registry Tenant"
+  description = "This role allows docker push to registry"
+
+  permissions = [
+    "resourcemanager.projects.get",
+    "storage.buckets.get",
+    "storage.objects.create",
+    "storage.objects.delete",
+    "storage.objects.get",
+    "storage.objects.list",
+    "storage.objects.update",
+  ]
+}
+
+resource "google_project_service" "container_registry" {
+  project            = data.google_project.container_images.name
+  service            = "containerregistry.googleapis.com"
+  disable_on_destroy = false
+}
+
+resource "google_project_service" "container_analysis" {
+  project            = data.google_project.container_images.name
+  service            = "containeranalysis.googleapis.com"
+  disable_on_destroy = false
+}

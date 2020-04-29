@@ -66,9 +66,6 @@ resource "google_container_cluster" "cluster" {
   initial_node_count       = 1
   remove_default_node_pool = true
 
-  vertical_pod_autoscaling {
-    enabled = true
-  }
 
   //  TODO - GKE cluster issue post enabling master authorized network config
   // https://github.com/terraform-providers/terraform-provider-google/issues/2198
@@ -88,11 +85,6 @@ resource "google_container_cluster" "cluster" {
     enabled = false
   }
 
-  maintenance_policy {
-    daily_maintenance_window {
-      start_time = "02:00"
-    }
-  }
 
   master_auth {
     client_certificate_config {
