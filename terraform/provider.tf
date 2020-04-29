@@ -9,12 +9,12 @@ locals {
 
 provider "google" {
   version = "~> 2.18.0"
-  project = "jagendra-atal-prakash-contino"
+  project = var.project_id
 }
 
 provider "google-beta" {
   version = "~> 2.18.0"
-  project = "jagendra-atal-prakash-contino"
+  project = var.project_id
 }
 
 provider "kubernetes" {

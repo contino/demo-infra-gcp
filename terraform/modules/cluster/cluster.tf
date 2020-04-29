@@ -125,9 +125,9 @@ resource "google_project_iam_member" "gke_node_monitoringviewer" {
   role   = "roles/monitoring.viewer"
 }
 
-resource "google_storage_bucket_iam_member" "gke_node_gcr_viewer" {
-  bucket = var.gcr_bucket_name
-  member = "serviceAccount:${google_service_account.cluster.email}"
-  role   = "roles/storage.objectViewer"
-}
+# resource "google_storage_bucket_iam_member" "gke_node_gcr_viewer" {
+#   bucket = var.gcr_bucket_name
+#   member = "serviceAccount:${google_service_account.cluster.email}"
+#   role   = "roles/storage.objectViewer"
+# }
 
