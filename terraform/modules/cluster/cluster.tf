@@ -47,8 +47,6 @@ resource "google_container_cluster" "cluster" {
   name     = var.name
   location = var.region
 
-  // TODO - Workaround because of an issue - https://github.com/hashicorp/terraform/issues/18209
-  // The fix is put in v0.12.0, it would be sometime before we upgrade, till then we have to cope with this workaround
   network = "projects/${data.google_client_config.current.project}/global/networks/${google_compute_network.vpc.name}"
 
   subnetwork = "projects/${data.google_client_config.current.project}/regions/${var.region}/subnetworks/${google_compute_subnetwork.vpc_regional_subnet.name}"
@@ -67,8 +65,6 @@ resource "google_container_cluster" "cluster" {
   remove_default_node_pool = true
 
 
-  //  TODO - GKE cluster issue post enabling master authorized network config
-  // https://github.com/terraform-providers/terraform-provider-google/issues/2198
   master_authorized_networks_config {
     cidr_blocks {
       cidr_block   = "0.0.0.0/0"
