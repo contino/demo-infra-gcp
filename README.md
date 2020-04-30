@@ -1,12 +1,20 @@
 # demo-infra-gcp
 Infra for demo application using GCP
 
-Find out a GCP project and then create a bucket "demo-tfstate-eu-gcs" for terraform state.
+- This will create a VPC and subnet
+- This will create a GKE regional (default: europe-west1) cluster (default name: demo-application) with a nodepool
+- This will create necessary service accounts
+- This will create container registry (GCR)
+- This will create a secret "gcr-json-key" for docker image for deployments
 
-Create a service account "terraform" for terraform.
+Steps-
 
-Create another service account "containerregistry" for container registry.
+1) Find out a GCP project or create a new one and then create a bucket e.g. "demo-tfstate-eu-gcs" for saving terraform state.
 
-Create secret using container registry service account
+2) Create a service account "terraform" which will be used to run pipeline. Download its key file in json format.
 
-kubectl create secret docker-registry gcr-json-key --docker-server=eu.gcr.io --docker-username=_json_key --docker-password="$(cat /Users/japrakash/Downloads/jagendra-atal-prakash-contino-b9e4ac7fe2dc.json)"          
+3) Create env variable GCP_CREDS in CircleCI project having value from step 2.
+
+4) Change project_id field in terraform.tfvars.
+
+5) Let the pipeline run and that should create complete infra.

@@ -48,3 +48,22 @@ resource "google_project_service" "gcp_services" {
 
   disable_dependent_services = true
 }
+
+resource "google_service_account_key" "containerregistry" {
+  service_account_id = google_service_account.service_account.name
+}
+
+resource "kubernetes_secret" "containerregistry" {
+  provider = kubernetes.cluster-k8s
+
+  metadata {
+    name = "gcr-json-key"
+    namespace = "default"
+  }
+
+  data = {
+    ".dockerconfigjson" = "${base64decode(google_service_account_key.containerregistry.private_key)}"
+  }
+
+  type = "kubernetes.io/dockerconfigjson"
+}
