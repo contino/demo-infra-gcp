@@ -13,19 +13,9 @@ jobs:
             terraform validate
   build:
     docker:
-      - image: google/cloud-sdk
+      - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
     steps:
       - checkout
-      - run:
-          name: Install wget & unzip
-          command: |
-            apt-get install wget
-            apt-get install unzip
-      - run:
-          name: Preparing machine to run terraform along with cloud-sdk
-          command: |
-            wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
-            unzip terraform_0.12.24_linux_amd64.zip $HOME/bin
       - run:
           name: Building Cloud Infra
           command: |
@@ -35,7 +25,7 @@ jobs:
             EOF
             export GOOGLE_APPLICATION_CREDENTIALS="creds.json"
             gcloud auth activate-service-account --key-file=creds.json
-            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${GCP_PROJECT}
+            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${GCP_PROJECT} || true
             cat backend.tf
             terraform init
             terraform plan -out "tf.plan"
