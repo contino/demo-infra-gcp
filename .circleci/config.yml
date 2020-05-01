@@ -12,20 +12,15 @@ jobs:
             terraform init -backend=false
             terraform validate
   build:
-    machine: true
-    working_directory: ~/my_app
+    docker:
+      - image: google/cloud-sdk
     steps:
       - run:
-          name: Preparing machine to run terraform and gcloud
+          name: Preparing machine to run terraform along with cloud-sdk
           command: |
             wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
             unzip terraform_0.12.24_linux_amd64.zip
-            sudo mv ~/my_app/terraform /usr/local/bin/terraform
-            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-            sudo apt-get install apt-transport-https ca-certificates gnupg
-            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-            sudo apt-get update && sudo apt-get install google-cloud-sdk
-            gcloud components install kubectl
+            sudo mv terraform /usr/local/bin/terraform
       - checkout
       - run:
           name: Building Cloud Infra
