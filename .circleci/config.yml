@@ -6,24 +6,37 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Validate files
+          name: Validating terraform files
           command: |
             cd terraform
             terraform init -backend=false
             terraform validate
   build:
-    docker:
-      - image: hashicorp/terraform:light
+    machine: true
+    working_directory: ~/my_app
     steps:
+      - run:
+          name: Preparing machine to run terraform and gcloud
+          command: |
+            wget https://releases.hashicorp.com/terraform/0.12.24/terraform_0.12.24_linux_amd64.zip
+            unzip terraform_0.12.24_linux_amd64.zip
+            mv ~/my_app/terraform /usr/local/bin/terraform
+            echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+            sudo apt-get install apt-transport-https ca-certificates gnupg
+            curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+            sudo apt-get update && sudo apt-get install google-cloud-sdk
+            gcloud components install kubectl
       - checkout
       - run:
-          name: Build infra
+          name: Building Cloud Infra
           command: |
             cd terraform
             cat <<EOF > creds.json
             $GCP_CREDS
             EOF
             export GOOGLE_APPLICATION_CREDENTIALS="creds.json"
+            gcloud auth activate-service-account --key-file=creds.json
+            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${GCP_PROJECT}
             cat backend.tf
             terraform init
             terraform plan -out "tf.plan"
