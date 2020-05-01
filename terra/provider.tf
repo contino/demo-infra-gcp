@@ -16,13 +16,3 @@ provider "google-beta" {
   version = "~> 3.18.0"
   project = var.project_id
 }
-
-provider "kubernetes" {
-  alias                  = "cluster-k8s"
-  host                   = local.kubernetes["host"]
-  config_context_cluster = local.kubernetes["config_context_cluster"]
-  cluster_ca_certificate = local.kubernetes["cluster_ca_certificate"]
-  token                  = local.kubernetes["token"]
-  config_path            = "/tmp/tf-kube-config"
-}
-

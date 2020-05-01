@@ -54,7 +54,7 @@ resource "google_service_account_key" "containerregistry" {
 }
 
 resource "kubernetes_secret" "containerregistry" {
-  provider = kubernetes.cluster-k8s
+  provider = kubernetes
 
   metadata {
     name = "gcr-json-key"

@@ -6,6 +6,7 @@ Infra for demo application using GCP
 - This will create necessary service accounts
 - This will create container registry (GCR)
 - This will create a secret "gcr-json-key" for docker image for deployments
+- This repo's Dockerfile is used to create image (japrakash/cci-terraform-light-gcloudsdk:0.0.1) with terraform and gcloud sdk
 
 Steps-
 
