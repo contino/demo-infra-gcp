@@ -16,9 +16,10 @@ jobs:
       - image: google/cloud-sdk
     steps:
       - run:
-          name: Install wget
+          name: Install wget & unzip
           command: |
             apt-get install wget
+            apt-get install unzip
       - run:
           name: Preparing machine to run terraform along with cloud-sdk
           command: |
