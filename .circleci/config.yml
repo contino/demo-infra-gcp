@@ -8,7 +8,7 @@ jobs:
       - run:
           name: Validating terraform files
           command: |
-            cd terra
+            cd terraform
             terraform init -backend=false
             terraform validate
   build:
@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Building Cloud Infra
           command: |
-            cd terra
+            cd terraform
             cat <<EOF > creds.json
             $GCP_CREDS
             EOF
