@@ -15,21 +15,21 @@ module "cluster_1" {
   preemptible                         = "true"
 }
 
-resource "google_service_account" "service_account" {
-  account_id   = "containerregistry"
+resource "google_service_account" "container_registry" {
+  account_id   = "container_registry"
   display_name = "Service Account for container registry"
   project      = var.project_id
+}
+
+resource "google_service_account_iam_binding" "container_registry_iam" {
+  service_account_id = google_service_account.container_registry.name
+  role               = "roles/storage.admin"
+  members            = "serviceAccount:${google_service_account.container_registry.email}"
 }
 
 resource "google_container_registry" "registry" {
   project  = var.project_id
   location = "EU"
-}
-
-resource "google_storage_bucket_iam_member" "viewer" {
-  bucket = google_container_registry.registry.id
-  role = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.service_account.email}"
 }
 
 data "google_project" "container_images" {
@@ -49,11 +49,11 @@ resource "google_project_service" "gcp_services" {
   disable_dependent_services = true
 }
 
-resource "google_service_account_key" "containerregistry" {
-  service_account_id = google_service_account.service_account.name
+resource "google_service_account_key" "container_registry" {
+  service_account_id = google_service_account.container_registry.name
 }
 
-resource "kubernetes_secret" "containerregistry" {
+resource "kubernetes_secret" "container_registry" {
   provider = kubernetes
 
   metadata {
@@ -62,7 +62,7 @@ resource "kubernetes_secret" "containerregistry" {
   }
 
   data = {
-    ".dockerconfigjson" = "${base64decode(google_service_account_key.containerregistry.private_key)}"
+    ".dockerconfigjson" = "${base64decode(google_service_account_key.container_registry.private_key)}"
   }
 
   type = "kubernetes.io/dockerconfigjson"
