@@ -27,5 +27,5 @@ output "cluster_1_network_name" {
   value = "${module.cluster_1.network_name}"
 }
 output "gcr_service_account" {
-  value = "${google_service_account.service_account.email}"
+  value = "${google_service_account.container-registry-user.email}"
 }

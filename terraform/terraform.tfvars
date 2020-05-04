@@ -1,7 +1,8 @@
 project_id = "jagendra-atal-prakash-contino"
 
 gcp_service_list = [
-  "cloudapis.googleapis.com",       
+  "cloudapis.googleapis.com",
+  "container.googleapis.com",
   "compute.googleapis.com",
   "iam.googleapis.com",
   "iamcredentials.googleapis.com",
