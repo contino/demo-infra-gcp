@@ -21,15 +21,15 @@ resource "google_service_account" "service_account" {
   project      = var.project_id
 }
 
-resource "google_project_iam_member" "role-binding" {
-  project = var.project_id
-  role    = "roles/storage.admin"
-  member  = "serviceAccount:${google_service_account.service_account.email}"
-}
-
 resource "google_container_registry" "registry" {
   project  = var.project_id
   location = "EU"
+}
+
+resource "google_storage_bucket_iam_member" "viewer" {
+  bucket = google_container_registry.registry.id
+  role = "roles/storage.admin"
+  member = "serviceAccount:${google_service_account.service_account.email}"
 }
 
 data "google_project" "container_images" {
