@@ -11,7 +11,7 @@ output "cluster_1_endpoint" {
 }
 
 output "cluster_1_service_account_email" {
-  value     = "${module.cluster_1.service_account_email}"
+  value = "${module.cluster_1.service_account_email}"
 }
 
 output "cluster_1_cluster_ca_certificate" {

@@ -18,7 +18,7 @@ resource "kubernetes_secret" "container-reader-writer" {
   provider = kubernetes
 
   metadata {
-    name = "gcr-json-key"
+    name      = "gcr-json-key"
     namespace = "default"
   }
 
