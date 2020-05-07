@@ -16,3 +16,7 @@ provider "google-beta" {
   version = "~> 3.18.0"
   project = var.project_id
 }
+
+provider "kubernetes" {
+  version = "~> 1.11"
+}
