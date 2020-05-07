@@ -4,11 +4,14 @@
 
 ![Cloud Architecture](images/GCP-GKE-Infra.jpeg)
 
-- This will create a VPC and subnet
-- This will create a GKE regional (default: europe-west1) cluster (default name: demo-application) with a nodepool
-- This will create necessary service accounts
-- This will create container registry (GCR)
-- This will create a secret "gcr-json-key" for docker image for deployments
+Following resources would be created using this repo.
+
+   1) VPC and subnet
+   2) GKE regional cluster (default region: europe-west1, default name: demo-application) with a nodepool
+   3) Relevant service accounts
+   4) Container registry (GCR)
+   5) Secret "gcr-json-key" for docker image pull access for deployments
+
 - This repo's Dockerfile is used to create image (japrakash/cci-terraform-light-gcloudsdk:0.0.1) with terraform and gcloud sdk
 
 ## Getting Started
