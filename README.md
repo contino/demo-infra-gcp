@@ -34,3 +34,5 @@ Following resources would be created using this repo.
 ## TODO
 
 1) PodSecurityPolicy (pod_security_policy_config) for cluster is currently disable. So need to enable it.
+
+2) Automation of new project, terraform state bucket and service account creation
