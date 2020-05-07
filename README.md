@@ -27,3 +27,7 @@
 4) Change project_id field in terraform.tfvars.
 
 5) Let the pipeline run and that should create complete infra.
+
+## TODO
+
+1) PodSecurityPolicy (pod_security_policy_config) for cluster is currently disable. So need to enable it.
