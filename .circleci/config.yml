@@ -25,11 +25,11 @@ jobs:
             EOF
             export GOOGLE_APPLICATION_CREDENTIALS="creds.json"
             gcloud auth activate-service-account --key-file=creds.json
-            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${GCP_PROJECT} || true
             cat backend.tf
             terraform init
             terraform plan -out "tf.plan"
             terraform apply -auto-approve "tf.plan"
+            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${GCP_PROJECT}
             rm "tf.plan"
             rm creds.json
 
