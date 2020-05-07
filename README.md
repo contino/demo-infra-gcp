@@ -1,5 +1,6 @@
-# demo-infra-gcp
-Infra for demo application using GCP
+# Scaffolding Pipeline GCP
+
+## Building Infrastructure Platform
 
 ![Cloud Architecture](images/GCP-GKE-Infra.jpeg)
 
@@ -10,7 +11,7 @@ Infra for demo application using GCP
 - This will create a secret "gcr-json-key" for docker image for deployments
 - This repo's Dockerfile is used to create image (japrakash/cci-terraform-light-gcloudsdk:0.0.1) with terraform and gcloud sdk
 
-Steps-
+## Getting Started
 
 1) Find out a GCP project or create a new one and then create a bucket e.g. "demo-tfstate-eu-gcs" for saving terraform state.
 
