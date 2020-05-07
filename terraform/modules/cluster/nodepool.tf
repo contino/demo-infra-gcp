@@ -1,6 +1,6 @@
-resource "random_string" "np_name" {
+resource "random_string" "nodepool_name" {
   count   = var.nodepool_count
-  length  = 6
+  length  = 5
   special = false
   upper   = false
 
@@ -14,18 +14,18 @@ resource "random_string" "np_name" {
   }
 }
 
-resource "google_container_node_pool" "np" {
+resource "google_container_node_pool" "nodepool" {
   provider = google-beta
   count    = var.nodepool_count
-  name     = "pool-${random_string.np_name[count.index].result}"
-  location = random_string.np_name.*.keepers.region[count.index]
-  cluster  = random_string.np_name.*.keepers.cluster[count.index]
+  name     = "nodepool-${random_string.nodepool_name[count.index].result}"
+  location = random_string.nodepool_name.*.keepers.region[count.index]
+  cluster  = random_string.nodepool_name.*.keepers.cluster[count.index]
 
   initial_node_count = var.initial_node_count
   version            = google_container_cluster.cluster.master_version
 
   node_config {
-    machine_type    = random_string.np_name.*.keepers.machine_type[count.index]
+    machine_type    = random_string.nodepool_name.*.keepers.machine_type[count.index]
     service_account = google_service_account.cluster.email
     preemptible     = var.preemptible
     oauth_scopes    = var.node_pool_oauth_scopes
@@ -54,4 +54,3 @@ resource "google_container_node_pool" "np" {
     ignore_changes        = [version]
   }
 }
-

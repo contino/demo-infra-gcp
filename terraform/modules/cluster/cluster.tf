@@ -29,16 +29,16 @@ resource "google_compute_subnetwork" "vpc_regional_subnet" {
   name          = "${var.name}-${var.region}"
   network       = google_compute_network.vpc.name
   region        = var.region
-  ip_cidr_range = var.node_subnet_range
+  ip_cidr_range = var.node_ip_range
 
   secondary_ip_range {
     range_name    = "pods"
-    ip_cidr_range = var.pod_subnet_range
+    ip_cidr_range = var.pod_ip_range
   }
 
   secondary_ip_range {
     range_name    = "services"
-    ip_cidr_range = var.service_subnet_range
+    ip_cidr_range = var.service_ip_range
   }
 }
 
@@ -99,7 +99,6 @@ resource "google_container_cluster" "cluster" {
   }
 }
 
-# https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#use_least_privilege_sa
 resource "google_service_account" "cluster" {
   account_id   = var.name
   display_name = "Default service account for nodes of cluster ${google_container_cluster.cluster.name}"
@@ -120,10 +119,4 @@ resource "google_project_iam_member" "gke_node_monitoringviewer" {
   member = "serviceAccount:${google_service_account.cluster.email}"
   role   = "roles/monitoring.viewer"
 }
-
-# resource "google_storage_bucket_iam_member" "gke_node_gcr_viewer" {
-#   bucket = var.gcr_bucket_name
-#   member = "serviceAccount:${google_service_account.cluster.email}"
-#   role   = "roles/storage.objectViewer"
-# }
 

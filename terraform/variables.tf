@@ -50,19 +50,19 @@ variable "machine_type" {
   default     = "n1-standard-1"
 }
 
-variable "node_subnet_range" {
-  description = "Node Subnet range"
+variable "node_ip_range" {
+  description = "Node IP range"
   type        = string
-  default     = "10.0.0.0/24"
+  default     = "10.5.0.0/20"
 }
-variable "pod_subnet_range" {
-  description = "Pod Subnet range"
+variable "pod_ip_range" {
+  description = "Pod IP range"
   type        = string
-  default     = "10.224.0.0/17"
+  default     = "10.0.0.0/14"
 }
 
-variable "service_subnet_range" {
-  description = "Service Subnet range"
+variable "service_ip_range" {
+  description = "Service IP range"
   type        = string
-  default     = "10.128.0.0/17"
+  default     = "10.4.0.0/19"
 }

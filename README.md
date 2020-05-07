@@ -24,7 +24,7 @@ Following resources would be created using this repo.
    
            CLUSTER_NAME = demo-application
            CLUSTER_REGION = europe-west1
-           GCP_CREDS = <jjson file contents created in step 2>
+           GCP_CREDS = <json file contents created in step 2>
            GCP_PROJECT = jagendra-atal-prakash-contino
 
 4) Change project_id field in terraform.tfvars.
