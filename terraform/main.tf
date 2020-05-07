@@ -14,9 +14,3 @@ module "cluster_1" {
   initial_node_count                  = var.initial_node_count
   preemptible                         = var.preemptible
 }
-
-resource "google_project_service" "gcp-services" {
-  count   = length(var.gcp_service_list)
-  project = var.project_id
-  service = var.gcp_service_list[count.index]
-}
