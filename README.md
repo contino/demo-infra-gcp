@@ -1,6 +1,8 @@
 # demo-infra-gcp
 Infra for demo application using GCP
 
+![Cloud Architecture](images/GCP-GKE-Infra.jpeg)
+
 - This will create a VPC and subnet
 - This will create a GKE regional (default: europe-west1) cluster (default name: demo-application) with a nodepool
 - This will create necessary service accounts
