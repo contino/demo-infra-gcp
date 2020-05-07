@@ -17,7 +17,12 @@
 
 2) Create a service account "terraform" which will be used to run pipeline. Download its key file in json format.
 
-3) Create env variable GCP_CREDS in CircleCI project having value from step 2.
+3) Create below mentioned env variables in CircleCi with respective values
+   
+           CLUSTER_NAME = demo-application
+           CLUSTER_REGION = europe-west1
+           GCP_CREDS = <jjson file contents created in step 2>
+           GCP_PROJECT = jagendra-atal-prakash-contino
 
 4) Change project_id field in terraform.tfvars.
 
