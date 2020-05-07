@@ -27,9 +27,7 @@ Following resources would be created using this repo.
            GCP_CREDS = <json file contents created in step 2>
            TF_VAR_project_id = jagendra-atal-prakash-contino
 
-4) Change project_id field in terraform.tfvars.
-
-5) Let the pipeline run and that should create complete infra.
+4) Let the pipeline run and that should create complete infra.
 
 ## TODO
 
