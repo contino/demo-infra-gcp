@@ -21,7 +21,7 @@ jobs:
 
 workflows:
   version: 2
-  validate-and-build:
+  validate-build-deploy:
     jobs:
       - validate
       - build:
