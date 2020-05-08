@@ -5,12 +5,8 @@ jobs:
       - image: hashicorp/terraform:light
     steps:
       - checkout
-      - run:
-          name: Validating terraform files
-          command: |
-            cd terraform
-            terraform init -backend=false
-            terraform validate
+      - run: ./scripts/validate.sh
+
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
@@ -19,20 +15,20 @@ jobs:
       - run:
           name: Building Cloud Infra
           command: |
-            cd terraform
-            cat <<EOF > creds.json
-            $GCP_CREDS
-            EOF
-            export GOOGLE_APPLICATION_CREDENTIALS="creds.json"
-            export TF_VAR_project_id="${GCP_PROJECT}"
-            gcloud auth activate-service-account --key-file=creds.json
-            cat backend.tf
-            terraform init
-            terraform plan -out "tf.plan"
-            terraform apply -auto-approve "tf.plan"
-            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${TF_VAR_project_id}
-            rm "tf.plan"
-            rm creds.json
+
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: Deploy K8s yaml
+          command: |
+            echo $GCP_CREDS | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GCP_PROJECT}
+            gcloud --quiet config set compute/zone ${CLUSTER_REGION}
+            gcloud container clusters get-credentials ${CLUSTER_NAME}
+            cat k8s/*.yaml | kubectl apply -f -
 
 workflows:
   version: 2
@@ -45,3 +41,10 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+
