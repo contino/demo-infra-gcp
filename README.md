@@ -18,14 +18,14 @@ Following resources would be created using this repo.
 
 1) Find out a GCP project or create a new one and then create a bucket e.g. "demo-tfstate-eu-gcs" for saving terraform state.
 
-2) Create a service account "terraform" which will be used to run pipeline. Download its key file in json format.
+2) Create a service account "cicd-pipeline" which will be used to run pipelines. Download its key file in json format and use as GCP_CREDS value.
 
 3) Create below mentioned env variables in CircleCi with respective values
    
            CLUSTER_NAME = demo-application
            CLUSTER_REGION = europe-west1
            GCP_CREDS = <json file contents created in step 2>
-           TF_VAR_project_id = jagendra-atal-prakash-contino
+           GCP_PROJECT = jagendra-atal-prakash-contino
 
 4) Let the pipeline run and that should create complete infra.
 

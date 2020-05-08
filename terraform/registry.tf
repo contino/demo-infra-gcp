@@ -1,19 +1,3 @@
-resource "google_service_account" "container-registry-user" {
-  account_id   = "container-registry-user"
-  display_name = "Used by CICD to push and pull to/from GCR"
-  project      = var.project_id
-}
-
-resource "google_storage_bucket_iam_member" "container-registry-user" {
-  bucket = "eu.artifacts.${data.google_project.container-images.project_id}.appspot.com"
-  role   = "roles/storage.admin"
-  member = "serviceAccount:${google_service_account.container-registry-user.email}"
-}
-
-resource "google_service_account_key" "container-registry-user" {
-  service_account_id = google_service_account.container-registry-user.name
-}
-
 resource "google_container_registry" "registry" {
   project  = var.project_id
   location = "EU"
@@ -29,12 +13,24 @@ locals {
 
 resource "google_service_account" "image-puller" {
   account_id   = "image-puller"
-  display_name = "Image Puller"
+  display_name = "image-puller"
+  project      = var.project_id
+}
+
+resource "google_storage_bucket_iam_member" "image-puller" {
+  bucket = "eu.artifacts.${data.google_project.container-images.project_id}.appspot.com"
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.image-puller.email}"
 }
 
 resource "google_service_account_key" "image-puller" {
   service_account_id = google_service_account.image-puller.name
-  public_key_type    = "TYPE_X509_PEM_FILE"
+}
+
+resource "google_project_iam_member" "image-puller" {
+  project = var.project_id
+  role    = "roles/storage.objectViewer"
+  member  = "serviceAccount:${google_service_account.image-puller.email}"
 }
 
 resource "kubernetes_secret" "image-puller" {

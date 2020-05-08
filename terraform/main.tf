@@ -1,4 +1,4 @@
-module "cluster_1" {
+module "cluster" {
   source                              = "./modules/cluster"
   name                                = var.name
   region                              = var.region

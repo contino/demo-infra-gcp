@@ -9,8 +9,8 @@ provider "google-beta" {
 }
 
 provider "kubernetes" {
-  host                   = "https://${module.cluster_1.cluster_endpoint}"
-  cluster_ca_certificate = base64decode(module.cluster_1.cluster_ca_certificate)
+  host                   = "https://${module.cluster.cluster_endpoint}"
+  cluster_ca_certificate = base64decode(module.cluster.cluster_ca_certificate)
   token                  = data.google_client_config.current.access_token
   load_config_file       = false
   version                = "~> 1.11"
