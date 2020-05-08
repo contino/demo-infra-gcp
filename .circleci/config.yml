@@ -6,29 +6,18 @@ jobs:
     steps:
       - checkout
       - run: ./scripts/validate.sh
-
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
     steps:
       - checkout
-      - run:
-          name: Building Cloud Infra
-          command: |
-
+      - run: ./scripts/build.sh
   deploy:
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - run:
-          name: Deploy K8s yaml
-          command: |
-            echo $GCP_CREDS | gcloud auth activate-service-account --key-file=-
-            gcloud --quiet config set project ${GCP_PROJECT}
-            gcloud --quiet config set compute/zone ${CLUSTER_REGION}
-            gcloud container clusters get-credentials ${CLUSTER_NAME}
-            cat k8s/*.yaml | kubectl apply -f -
+      - run: ./scripts/deploy.sh
 
 workflows:
   version: 2
