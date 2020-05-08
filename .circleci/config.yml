@@ -5,19 +5,28 @@ jobs:
       - image: hashicorp/terraform:light
     steps:
       - checkout
-      - run: ./scripts/validate.sh
+      - run:
+          name: Validate Infra
+          commands:
+            - sh ./scripts/validate.sh
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
     steps:
       - checkout
-      - run: ./scripts/build.sh
+      - run:
+          name: Build Infra
+          commands:
+            - sh ./scripts/build.sh
   deploy:
     docker:
       - image: google/cloud-sdk
     steps:
       - checkout
-      - run: ./scripts/deploy.sh
+      - run:
+          name: Deploy Infra
+          commands:
+            - sh ./scripts/deploy.sh
 
 workflows:
   version: 2
