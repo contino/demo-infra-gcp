@@ -5,23 +5,38 @@ jobs:
       - image: hashicorp/terraform:light
     steps:
       - checkout
-      - run: bash ./scripts/validate.sh
+      - run:
+          name: Validating terraform files
+          command: |
+            cd terraform
+            terraform init -backend=false
+            terraform validate
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
     steps:
       - checkout
-      - run: bash ./scripts/build.sh
-  deploy:
-    docker:
-      - image: google/cloud-sdk
-    steps:
-      - checkout
-      - run: bash ./scripts/deploy.sh
+      - run:
+          name: Building Cloud Infra
+          command: |
+            cd terraform
+            cat <<EOF > creds.json
+            $GCP_CREDS
+            EOF
+            export GOOGLE_APPLICATION_CREDENTIALS="creds.json"
+            export TF_VAR_project_id="${GCP_PROJECT}"
+            gcloud auth activate-service-account --key-file=creds.json
+            cat backend.tf
+            terraform init
+            terraform plan -out "tf.plan"
+            terraform apply -auto-approve "tf.plan"
+            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${TF_VAR_project_id}
+            rm "tf.plan"
+            rm creds.json
 
 workflows:
   version: 2
-  validate-build-deploy:
+  validate-and-build:
     jobs:
       - validate
       - build:
@@ -30,10 +45,3 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
-
