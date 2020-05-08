@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 function assert_variables_set() {
   local error=0

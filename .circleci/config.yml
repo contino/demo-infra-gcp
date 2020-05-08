@@ -7,8 +7,7 @@ jobs:
       - checkout
       - run:
           name: Validate Infra
-          commands:
-            - sh ./scripts/validate.sh
+          commands: sh ./scripts/validate.sh
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
@@ -16,8 +15,7 @@ jobs:
       - checkout
       - run:
           name: Build Infra
-          commands:
-            - sh ./scripts/build.sh
+          commands: sh ./scripts/build.sh
   deploy:
     docker:
       - image: google/cloud-sdk
@@ -25,8 +23,7 @@ jobs:
       - checkout
       - run:
           name: Deploy Infra
-          commands:
-            - sh ./scripts/deploy.sh
+          commands: sh ./scripts/deploy.sh
 
 workflows:
   version: 2
