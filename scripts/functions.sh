@@ -16,7 +16,7 @@ function assert_variables_set() {
 
 function check_params() {
   params="$1"
-  params_split=($params)
+  params_split={$params}
   actual_param_count=${#params_split[@]}
   shift
   expected_param_count="$#"
