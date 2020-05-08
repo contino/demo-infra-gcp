@@ -42,7 +42,7 @@ resource "kubernetes_secret" "image-puller" {
   data = {
     ".dockerconfigjson" = jsonencode({
       "auths" : {
-        "eu.gcr.io" : {
+        "https://gcr.io" : {
           email    = google_service_account.image-puller.email
           username = "_json_key"
           password = trimspace(base64decode(google_service_account_key.image-puller.private_key))
