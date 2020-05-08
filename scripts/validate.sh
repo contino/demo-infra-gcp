@@ -1,6 +1,6 @@
 #!/bin/sh
 set -euo pipefail
 
-cd ../terraform
+cd terraform
 terraform init -backend=false
 terraform validate
