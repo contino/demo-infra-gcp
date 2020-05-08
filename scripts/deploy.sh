@@ -1,7 +1,7 @@
 #!/bin/sh
 set -euo pipefail
 
-. ./functions.sh
+. ./scripts/functions.sh
 
 assert_variables_set $GCP_CREDS $CLUSTER_NAME $CLUSTER_REGION $GCP_PROJECT
 
