@@ -11,6 +11,8 @@ Following resources would be created using this repo.
    3) Relevant service accounts
    4) Container registry (GCR)
    5) Secret "gcr-json-key" for docker image pull access for deployments
+   6) nginx ingress-controller
+   7) cert-manager and letsencrypt
 
 - This repo's Dockerfile is used to create image (japrakash/cci-terraform-light-gcloudsdk:0.0.1) with terraform and gcloud sdk
 

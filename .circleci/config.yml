@@ -30,18 +30,36 @@ jobs:
             terraform init
             terraform plan -out "tf.plan"
             terraform apply -auto-approve "tf.plan"
-            gcloud container clusters get-credentials "${CLUSTER_NAME}" --region ${CLUSTER_REGION} --project ${TF_VAR_project_id}
             rm "tf.plan"
             rm creds.json
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - checkout
+      - run:
+          name: Deploy K8s yaml
+          command: |
+            echo $GCP_CREDS | gcloud auth activate-service-account --key-file=-
+            gcloud --quiet config set project ${GCP_PROJECT}
+            gcloud --quiet config set compute/zone ${CLUSTER_REGION}
+            gcloud container clusters get-credentials ${CLUSTER_NAME}
+            cat k8s/*.yaml | envsubst | kubectl apply -f -
 
 workflows:
   version: 2
-  validate-and-build:
+  validate-build-deploy:
     jobs:
       - validate
       - build:
           requires:
             - validate
+          filters:
+            branches:
+              only: master
+      - deploy:
+          requires:
+            - build
           filters:
             branches:
               only: master
