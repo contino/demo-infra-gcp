@@ -14,3 +14,9 @@ module "cluster" {
   initial_node_count                  = var.initial_node_count
   preemptible                         = var.preemptible
 }
+
+resource "google_compute_address" "static" {
+  name = "ipv4-demo-application"
+  provider = google
+  region   = var.region
+}
