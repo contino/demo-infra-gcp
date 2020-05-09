@@ -12,6 +12,7 @@ Following resources would be created using this repo.
    4) Container registry (GCR)
    5) Secret "gcr-json-key" for docker image pull access for deployments
    6) Static IP address
+   7) Cloud DNS, DNS Zone with A type record set pointing to static IP
    7) nginx ingress-controller
    8) cert-manager and letsencrypt
 
@@ -29,6 +30,7 @@ Following resources would be created using this repo.
            CLUSTER_REGION = europe-west1
            GCP_CREDS = <json file contents created in step 2>
            GCP_PROJECT = jagendra-atal-prakash-contino
+           DNS_NAME = testmynewapplication.tk.
 
 4) Let the pipeline run and that should create complete infra.
 

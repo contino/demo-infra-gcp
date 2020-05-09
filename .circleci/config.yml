@@ -34,6 +34,7 @@ jobs:
             EOF
             export GOOGLE_APPLICATION_CREDENTIALS="creds.json"
             export TF_VAR_project_id="${GCP_PROJECT}"
+            export TF_VAR_dns_name="${DNS_NAME}"
             gcloud auth activate-service-account --key-file=creds.json
             cat backend.tf
             terraform init

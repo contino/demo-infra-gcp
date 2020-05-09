@@ -31,6 +31,17 @@ variable "name" {
   default     = "demo-application"
 }
 
+variable "dns_zone_name" {
+  description = "dns zone name"
+  type        = string
+  default     = "demo-zone"
+}
+
+variable "dns_name" {
+  description = "dns name"
+  type        = string
+}
+
 variable "preemptible" {
   default = true
 }

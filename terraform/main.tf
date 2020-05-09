@@ -16,7 +16,24 @@ module "cluster" {
 }
 
 resource "google_compute_address" "static" {
-  name = "ipv4-demo-application"
+  name     = "ipv4-demo-application"
   provider = google
   region   = var.region
+}
+
+resource "google_dns_managed_zone" "dns_zone" {
+  name        = var.dns_zone_name
+  dns_name    = var.dns_name
+  description = "Demo DNS zone"
+}
+
+resource "google_dns_record_set" "primary" {
+  name    = google_dns_managed_zone.dns_zone.dns_name
+  project = var.project_id
+  type    = "A"
+  ttl     = "60"
+
+  managed_zone = google_dns_managed_zone.dns_zone.name
+
+  rrdatas = [google_compute_address.static.address]
 }
