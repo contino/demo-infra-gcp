@@ -1,4 +1,10 @@
 version: 2
+references:
+  workspace_root: &workspace_root
+    /tmp/workspace
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
 jobs:
   validate:
     docker:
@@ -14,12 +20,14 @@ jobs:
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
-    working_directory: /tmp
     steps:
+      - *attach_workspace
       - checkout
       - run:
           name: Building Cloud Infra
           command: |
+            set -exu
+            mkdir -p /tmp/workspace/output
             cd terraform
             cat <<EOF > creds.json
             $GCP_CREDS
@@ -31,31 +39,28 @@ jobs:
             terraform init
             terraform plan -out "tf.plan"
             terraform apply -auto-approve "tf.plan"
-            terraform output cluster_static_ip > workspace/output
+            terraform output cluster_static_ip > /tmp/workspace/output/output.log
             rm "tf.plan"
             rm creds.json
-      - persist_to_workspace:
-          root: workspace
-          # Must be relative path from root
+      - persist_to_workspace: # store the built files into the workspace for other jobs.
+          root: *workspace_root
           paths:
             - output
   deploy:
     docker:
       - image: google/cloud-sdk
     steps:
+      - *attach_workspace
       - checkout
       - run:
           name: Install envsubst
           command: |
             apt-get install gettext-base
-      - attach_workspace:
-          # Must be absolute path or relative path from working_directory
-          at: /tmp/workspace
       - run:
           name: Deploy K8s yaml
           command: |
             echo $GCP_CREDS | gcloud auth activate-service-account --key-file=-
-            export STATIC_IP=`cat /tmp/workspace/output`
+            export STATIC_IP=`cat /tmp/workspace/output/output.log`
             gcloud --quiet config set project ${GCP_PROJECT}
             gcloud --quiet config set compute/zone ${CLUSTER_REGION}
             gcloud container clusters get-credentials ${CLUSTER_NAME}
