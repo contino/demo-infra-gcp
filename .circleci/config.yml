@@ -38,6 +38,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install envsubst
+          command: |
+            apt-get install gettext-base
+      - run:
           name: Deploy K8s yaml
           command: |
             echo $GCP_CREDS | gcloud auth activate-service-account --key-file=-
