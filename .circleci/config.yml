@@ -1,5 +1,4 @@
 version: 2
-working_directory: /tmp
 jobs:
   validate:
     docker:
@@ -15,6 +14,7 @@ jobs:
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
+    working_directory: /tmp
     steps:
       - checkout
       - run:
