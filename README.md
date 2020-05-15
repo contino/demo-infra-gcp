@@ -39,3 +39,51 @@ Following resources would be created using this repo.
 1) PodSecurityPolicy (pod_security_policy_config) for cluster is currently disable. So need to enable it.
 
 2) Automation of new project, terraform state bucket and service account creation
+
+## Cluster Module Details
+
+### Requirements
+
+No requirements.
+
+### Providers
+
+| Name | Version |
+|------|---------|
+| google | n/a |
+| google-beta | n/a |
+| random | n/a |
+
+### Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| default\_max\_nodes\_per\_zone\_per\_pool | n/a | `string` | `"3"` | no |
+| default\_min\_nodes\_per\_zone\_per\_pool | n/a | `string` | `"1"` | no |
+| disk\_size\_gb | n/a | `string` | `"100"` | no |
+| disk\_type | n/a | `string` | `"pd-standard"` | no |
+| gcr\_bucket\_name | The bucket name for the Google Container Registry | `any` | n/a | yes |
+| initial\_node\_count | n/a | `string` | `"1"` | no |
+| machine\_type | n/a | `any` | n/a | yes |
+| min\_master\_version | n/a | `any` | n/a | yes |
+| name | n/a | `any` | n/a | yes |
+| node\_ip\_range | n/a | `any` | n/a | yes |
+| node\_pool\_oauth\_scopes | The oauth scope(s) to apply to the node pools | `list(string)` | <pre>[<br>  "cloud-platform"<br>]</pre> | no |
+| nodepool\_count | n/a | `any` | n/a | yes |
+| pod\_ip\_range | n/a | `any` | n/a | yes |
+| preemptible | n/a | `any` | n/a | yes |
+| region | n/a | `any` | n/a | yes |
+| service\_ip\_range | n/a | `any` | n/a | yes |
+
+### Outputs
+
+| Name | Description |
+|------|-------------|
+| cluster\_ca\_certificate | n/a |
+| cluster\_endpoint | n/a |
+| cluster\_master\_version | n/a |
+| cluster\_name | n/a |
+| cluster\_region | n/a |
+| network\_name | n/a |
+| service\_account\_email | n/a |
+| subnet\_name | n/a |
