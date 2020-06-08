@@ -48,7 +48,7 @@ variable "preemptible" {
 
 variable "min_master_version" {
   type    = string
-  default = "1.14.10-gke.27"
+  default = "1.16.8-gke.15"
 }
 
 variable "machine_type" {
