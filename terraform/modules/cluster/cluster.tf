@@ -9,7 +9,7 @@ locals {
     "compute",
     "container",
     "cloudkms",
-    "clouddns",
+    "dns",
     "sqladmin",
     "containeranalysis",
   ]
