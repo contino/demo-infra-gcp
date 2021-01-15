@@ -9,7 +9,7 @@ RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud
     && /usr/local/gcloud/google-cloud-sdk/install.sh --quiet \
     && rm /tmp/google-cloud-sdk.tar.gz
 
-ENV KUBE_LATEST_VERSION="v1.17.14"
+ENV KUBE_LATEST_VERSION="v1.18.12"
 
 RUN apk add --no-cache ca-certificates bash git \
     && wget -q https://storage.googleapis.com/kubernetes-release/release/${KUBE_LATEST_VERSION}/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
