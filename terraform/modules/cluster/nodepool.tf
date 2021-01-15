@@ -46,7 +46,7 @@ resource "google_container_node_pool" "nodepool" {
 
   management {
     auto_repair  = true
-    auto_upgrade = false
+    auto_upgrade = true
   }
 
   lifecycle {
