@@ -1,7 +1,6 @@
 version: 2
 references:
-  workspace_root: &workspace_root
-    /tmp/workspace
+  workspace_root: &workspace_root /tmp/workspace
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
@@ -17,18 +16,6 @@ jobs:
             cd terraform
             terraform init -backend=false
             terraform validate
-  checkov:
-    docker:
-      - image: bridgecrew/checkov:latest
-    steps:
-      - checkout
-      - run:
-          name: Validating terraform files using checkov
-          ent
-          command: |
-            cd terraform
-            terraform init -backend=false
-            terraform validate          
   build:
     docker:
       - image: japrakash/cci-terraform-light-gcloudsdk:0.0.1
