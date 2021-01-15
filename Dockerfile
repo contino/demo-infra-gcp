@@ -1,6 +1,6 @@
 FROM hashicorp/terraform:0.13.6
 
-RUN apk add --update python \
+RUN apk add --update python3 \
     && apk add curl
 
 RUN curl https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-323.0.0-linux-x86_64.tar.gz > /tmp/google-cloud-sdk.tar.gz \
