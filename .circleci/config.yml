@@ -71,9 +71,6 @@ workflows:
   validate-build-deploy:
     jobs:
       - validate
-      - checkov:
-          requires:
-            - validate
       - build:
           requires:
             - validate
