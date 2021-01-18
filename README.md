@@ -34,6 +34,18 @@ Following resources would be created using this repo.
 
 4) Let the pipeline run and that should create complete infra.
 
+5) Need to create a serviceaccount for dns by running below commands.
+
+    $ PROJECT_ID=myproject-id
+    $ gcloud iam service-accounts create dns01-solver --display-name "dns01-solver"
+    $ gcloud projects add-iam-policy-binding $PROJECT_ID \
+   --member serviceAccount:dns01-solver@$PROJECT_ID.iam.gserviceaccount.com \
+   --role roles/dns.admin
+    $ gcloud iam service-accounts keys create key.json \
+   --iam-account dns01-solver@$PROJECT_ID.iam.gserviceaccount.com
+    $ kubectl create secret generic cert-manager-credentials \
+   --from-file=key.json
+
 ## TODO
 
 1) PodSecurityPolicy (pod_security_policy_config) for cluster is currently disable. So need to enable it.
