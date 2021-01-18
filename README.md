@@ -30,7 +30,7 @@ Following resources would be created using this repo.
            CLUSTER_REGION = europe-west1
            GCP_CREDS = <json file contents created in step 2>
            GCP_PROJECT = jagendra-atal-prakash-contino
-           DNS_NAME = testmynewapplication.tk.
+           DNS_NAME = demoapplication.squadzero.io.
 
 4) Let the pipeline run and that should create complete infra.
 
