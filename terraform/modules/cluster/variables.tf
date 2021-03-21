@@ -51,7 +51,3 @@ variable "node_pool_oauth_scopes" {
   default     = ["cloud-platform"]
 }
 
-variable "gcr_bucket_name" {
-  description = "The bucket name for the Google Container Registry"
-}
-

@@ -10,7 +10,6 @@ module "cluster" {
   machine_type                        = var.machine_type
   default_min_nodes_per_zone_per_pool = var.default_min_nodes_per_zone_per_pool
   default_max_nodes_per_zone_per_pool = var.default_max_nodes_per_zone_per_pool
-  gcr_bucket_name                     = "eu.artifacts.${data.google_project.container-images.name}.appspot.com"
   initial_node_count                  = var.initial_node_count
   preemptible                         = var.preemptible
 }
