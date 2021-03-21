@@ -20,7 +20,7 @@ Following resources would be created using this repo.
 
 ## Getting Started
 
-1) Find out a GCP project or create a new one and then create a bucket e.g. "demo-application-tfstate-eu-gcs-<project_id>" for saving terraform state.
+1) Find out a GCP project or create a new one and then create a bucket e.g. "demo-application-tfstate-eu-gcs" for saving terraform state.
 
 2) Create a service account "cicd-pipeline" which will be used to run pipelines. Download its key file in json format and use as GCP_CREDS value.
 
