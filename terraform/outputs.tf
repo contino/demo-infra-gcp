@@ -2,10 +2,6 @@ output "cluster_name" {
   value = module.cluster.cluster_name
 }
 
-output "cluster_region" {
-  value = module.cluster.cluster_region
-}
-
 output "cluster_endpoint" {
   value = module.cluster.cluster_endpoint
 }

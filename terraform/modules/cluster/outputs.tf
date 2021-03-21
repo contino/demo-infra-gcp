@@ -14,10 +14,6 @@ output "cluster_master_version" {
   value = google_container_cluster.cluster.master_version
 }
 
-output "cluster_region" {
-  value = google_container_cluster.cluster.region
-}
-
 output "cluster_endpoint" {
   value = google_container_cluster.cluster.endpoint
 }
